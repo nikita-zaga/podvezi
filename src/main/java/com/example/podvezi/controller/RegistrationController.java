@@ -1,7 +1,9 @@
 package com.example.podvezi.controller;
 
 import com.example.podvezi.dto.RegistrationDto;
+import com.example.podvezi.model.Authority;
 import com.example.podvezi.model.User;
+import com.example.podvezi.repository.AuthorityRepository;
 import com.example.podvezi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +27,23 @@ public class RegistrationController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AuthorityRepository authorityRepository;
+
     @PostMapping("/register")
     public ResponseEntity<?> registerPassenger(@RequestBody RegistrationDto registrationDto) {
         String username = registrationDto.getUsername();
         String password = registrationDto.getPassword();
+        String role = registrationDto.getRole();
+
 
         String encodePassword = passwordEncoder.encode(password);
 
         User user = new User(username, encodePassword);
         userRepository.save(user);
+
+        Authority authority = new Authority(username, role);
+        authorityRepository.save(authority);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Регистрация успешна выполнена!");
