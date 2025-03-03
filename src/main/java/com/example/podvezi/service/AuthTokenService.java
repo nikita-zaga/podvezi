@@ -3,6 +3,7 @@ package com.example.podvezi.service;
 import com.example.podvezi.model.AuthToken;
 import com.example.podvezi.repository.AuthTokenRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class AuthTokenService {
         this.authTokenRepository = authTokenRepository;
     }
 
+    @Transactional
     public String generateToken(String username) {
         String token = generateRandomToken();
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(30);
@@ -35,6 +37,7 @@ public class AuthTokenService {
                 .filter(authToken -> authToken.getExpiresAt().isAfter(LocalDateTime.now()));
     }
 
+    @Transactional
     public void revokeToken(String token) {
         authTokenRepository.deleteByToken(token);
     }
