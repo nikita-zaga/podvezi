@@ -1,6 +1,5 @@
 package com.example.podvezi.service;
 
-import com.example.podvezi.controller.DriveController;
 import com.example.podvezi.dto.RegistrationDto;
 import com.example.podvezi.model.Authority;
 import com.example.podvezi.model.Car;
@@ -8,6 +7,7 @@ import com.example.podvezi.model.Driver;
 import com.example.podvezi.model.Passenger;
 import com.example.podvezi.model.User;
 import com.example.podvezi.repository.AuthorityRepository;
+import com.example.podvezi.repository.CarRepository;
 import com.example.podvezi.repository.DriverRepository;
 import com.example.podvezi.repository.PassengerRepository;
 import com.example.podvezi.repository.UserRepository;
@@ -38,6 +38,9 @@ public class RegistrationService {
     @Autowired
     private DriverRepository driverRepository;
 
+    @Autowired
+    private CarRepository carRepository;
+
     @Transactional
     public void registerUser(RegistrationDto registrationDto) {
         logger.info("Start register {}", registrationDto.getUsername());
@@ -67,6 +70,9 @@ public class RegistrationService {
                         registrationDto.getCar().getModel(),
                         registrationDto.getCar().getNumber(),
                         registrationDto.getCar().getColor());
+                carRepository.save(car);
+                logger.info("car saved successfully");
+
                 Driver driver = new Driver(savedUser, experienceYears, tripCount, car);
                 driverRepository.save(driver);
                 logger.info("driver saved successfully");
