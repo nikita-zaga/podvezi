@@ -5,8 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-public class DriveController {
-    private static final Logger logger = LoggerFactory.getLogger(DriveController.class);
+public class TripController {
+    private static final Logger logger = LoggerFactory.getLogger(TripController.class);
+
 
 
 }
