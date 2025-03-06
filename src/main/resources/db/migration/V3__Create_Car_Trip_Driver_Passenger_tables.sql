@@ -17,14 +17,13 @@ CREATE TABLE driver (
 
 CREATE TABLE trip (
                       id SERIAL PRIMARY KEY,
-                      start_location VARCHAR(255),
-                      end_location VARCHAR(255),
+                      route VARCHAR(255),
                       start_time TIMESTAMP WITHOUT TIME ZONE NOT NULL,
                       price VARCHAR(255),
                       count_free_places VARCHAR(255),
                       status VARCHAR(255),
-                      car_id BIGINT,
-                      FOREIGN KEY(car_id) REFERENCES car(id)
+                      driver_id BIGINT,
+                      FOREIGN KEY(driver_id) REFERENCES driver(id)
 );
 
 CREATE TABLE passenger (
