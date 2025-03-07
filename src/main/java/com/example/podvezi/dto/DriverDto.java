@@ -7,11 +7,9 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class RegistrationDto {
-    private String username;
-    private String password;
-    private String role;
+public class DriverDto {
     private String experienceYears;
     private String tripCount;
+
     private CarDto carDto;
 }

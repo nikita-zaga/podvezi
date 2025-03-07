@@ -1,6 +1,8 @@
 package com.example.podvezi.service;
 
 import com.example.podvezi.dto.CreateDriverTripDto;
+import com.example.podvezi.dto.TripDto;
+import com.example.podvezi.mapper.TripMapper;
 import com.example.podvezi.model.Driver;
 import com.example.podvezi.model.Trip;
 import com.example.podvezi.model.User;
@@ -11,8 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TripService {
@@ -26,6 +30,9 @@ public class TripService {
 
     @Autowired
     private TripRepository tripRepository;
+
+    @Autowired
+    private TripMapper tripMapper;
 
     public void createDriverTrip(CreateDriverTripDto createDriverTripDto) {
         logger.info("Create driver trip");
@@ -48,5 +55,17 @@ public class TripService {
 
         tripRepository.save(trip);
         logger.info("trip successfully saved");
+    }
+
+    public List<TripDto> getTrips() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        logger.info("Get trips fro user: {}", username);
+
+        List<Trip> trips = tripRepository.findAllOrderByStartTimeDesc();
+
+        return trips.stream()
+                .map(trip -> tripMapper.mapToDto(trip))
+                .collect(Collectors.toList());
     }
 }
