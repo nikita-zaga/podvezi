@@ -7,7 +7,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class Car {
+public class CarDto {
     private String model;
     private String number;
     private String color;
