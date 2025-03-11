@@ -11,5 +11,5 @@ public class DriverDto {
     private String experienceYears;
     private String tripCount;
 
-    private CarDto carDto;
+    private CarDto car;
 }

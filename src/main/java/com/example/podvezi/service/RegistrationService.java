@@ -67,9 +67,9 @@ public class RegistrationService {
                 String experienceYears = registrationDto.getExperienceYears();
                 String tripCount = "0";
                 Car car = new Car(
-                        registrationDto.getCarDto().getModel(),
-                        registrationDto.getCarDto().getNumber(),
-                        registrationDto.getCarDto().getColor());
+                        registrationDto.getCar().getModel(),
+                        registrationDto.getCar().getNumber(),
+                        registrationDto.getCar().getColor());
                 carRepository.save(car);
                 logger.info("car saved successfully");
 
