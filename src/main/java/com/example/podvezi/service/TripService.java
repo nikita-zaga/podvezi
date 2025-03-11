@@ -62,7 +62,7 @@ public class TripService {
 
         logger.info("Get trips fro user: {}", username);
 
-        List<Trip> trips = tripRepository.findAllOrderByStartTimeDesc();
+        List<Trip> trips = tripRepository.findAllByOrderByStartTime();
 
         return trips.stream()
                 .map(trip -> tripMapper.mapToDto(trip))

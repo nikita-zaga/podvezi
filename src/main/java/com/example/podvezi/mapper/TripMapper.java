@@ -28,11 +28,11 @@ public class TripMapper {
         carDto.setModel(car.getModel());
         carDto.setNumber(car.getNumber());
 
-        driverDto.setCarDto(carDto);
+        driverDto.setCar(carDto);
 
         driverDto.setTripCount(driver.getTripCount());
         driverDto.setExperienceYears(driver.getExperienceYears());
-        tripDto.setDriverDto(driverDto);
+        tripDto.setDriver(driverDto);
 
         return tripDto;
     }

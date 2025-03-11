@@ -13,5 +13,5 @@ public class RegistrationDto {
     private String role;
     private String experienceYears;
     private String tripCount;
-    private CarDto carDto;
+    private CarDto car;
 }
