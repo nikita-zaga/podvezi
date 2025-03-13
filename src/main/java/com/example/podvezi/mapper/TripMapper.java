@@ -5,6 +5,7 @@ import com.example.podvezi.dto.DriverDto;
 import com.example.podvezi.dto.TripDto;
 import com.example.podvezi.model.Car;
 import com.example.podvezi.model.Driver;
+
 import com.example.podvezi.model.Trip;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class TripMapper {
         TripDto tripDto = new TripDto();
         tripDto.setStartTime(trip.getStartTime());
         tripDto.setStatus(trip.getStatus());
-        tripDto.setRoute(trip.getRoute());
+        tripDto.setRoute(trip.getRoute().getLabelName());
         tripDto.setCountFreePlaces(trip.getCountFreePlaces());
         tripDto.setPrice(trip.getPrice());
 

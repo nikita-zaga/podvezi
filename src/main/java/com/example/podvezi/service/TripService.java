@@ -4,9 +4,11 @@ import com.example.podvezi.dto.CreateDriverTripDto;
 import com.example.podvezi.dto.TripDto;
 import com.example.podvezi.mapper.TripMapper;
 import com.example.podvezi.model.Driver;
+import com.example.podvezi.model.Route;
 import com.example.podvezi.model.Trip;
 import com.example.podvezi.model.User;
 import com.example.podvezi.repository.DriverRepository;
+import com.example.podvezi.repository.RouteRepository;
 import com.example.podvezi.repository.TripRepository;
 import com.example.podvezi.repository.UserRepository;
 import org.slf4j.Logger;
@@ -14,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +36,9 @@ public class TripService {
     private TripRepository tripRepository;
 
     @Autowired
+    private RouteRepository routeRepository;
+
+    @Autowired
     private TripMapper tripMapper;
 
     public void createDriverTrip(CreateDriverTripDto createDriverTripDto) {
@@ -45,8 +52,10 @@ public class TripService {
 
         Driver driver = driverRepository.findByUser(user);
 
+        Route route = routeRepository.findBySystemName(createDriverTripDto.getRouteSystemName());
+
         Trip trip = new Trip(
-                createDriverTripDto.getRoute(),
+                route,
                 createDriverTripDto.getDate(),
                 createDriverTripDto.getPrice(),
                 createDriverTripDto.getCountFreePlaces(),
@@ -57,15 +66,24 @@ public class TripService {
         logger.info("trip successfully saved");
     }
 
-    public List<TripDto> getTrips() {
+    public List<TripDto> getTrips(String routeSystemName) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         logger.info("Get trips fro user: {}", username);
 
-        List<Trip> trips = tripRepository.findAllByOrderByStartTime();
+        if (StringUtils.hasText(routeSystemName)) {
+            List<Trip> trips = tripRepository.findByRouteSystemName(routeSystemName);
 
-        return trips.stream()
-                .map(trip -> tripMapper.mapToDto(trip))
-                .collect(Collectors.toList());
+            return trips.stream()
+                    .map(trip -> tripMapper.mapToDto(trip))
+                    .collect(Collectors.toList());
+
+        } else {
+            List<Trip> trips = tripRepository.findAllByOrderByStartTime();
+
+            return trips.stream()
+                    .map(trip -> tripMapper.mapToDto(trip))
+                    .collect(Collectors.toList());
+        }
     }
 }
