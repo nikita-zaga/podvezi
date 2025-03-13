@@ -13,5 +13,5 @@ public class CreateDriverTripDto {
     private String countFreePlaces;
     private LocalDateTime date;
     private String price;
-    private String route;
+    private String routeSystemName;
 }
